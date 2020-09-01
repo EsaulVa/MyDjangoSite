@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <div>
+        <span id="info_text">{{ message }}</span>
+    </div>
+    <style type="text/css">
+        .td_class{
+            background: #985f0d;
+        }
+
+         .tr_class {
+            background: #3A87AD; /* Цвет фона ячеек */
+        }
+         .tr_class_сlusterize {
+             background: #1c7430; /* Цвет фона ячеек */
+         }
+         .tr_class_ethalone {
+             background: lightpink; /* Цвет фона ячеек */
+         }
+        .th_class{
+            background: #6c757d; /* Цвет фона ячеек */
+        }
+         .marked{
+             background: tomato;
+         }
+         .dialog-menu {
+             margin: 0;
+             padding: 0;
+             position: fixed;
+             list-style: none;
+             background: #c1c4c2;
+             border: 2px solid #ffffff;
+             border-radius: 2px;
+             display: none;
+             min-width: 100px;
+             overflow: auto;
+             min-height: 100px;
+
+         }
+         .dialog-menu.active {
+             display: block;
+         }
+         .right-click-menu {
+             margin: 0;
+             padding: 0;
+             position: fixed;
+             list-style: none;
+             background: #c1c4c2;
+             border: 2px solid #ffffff;
+             border-radius: 2px;
+             display: none;
+         }
+         .right-click-menu.active {
+             display: block;
+         }
+         .menu_area{
+         }
+    </style>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+</head>
+<body>
+<div class="menu_area">
+        <table id="main_table">
+            <thead>
+            <tr>
+                {% for item in headers %}
+                    <th class="th_class">
+                        {{ item }}
+                    </th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in list_data %}
+                {% include 'data_item.html' with data_item=item %}
+            {% endfor %}
+            </tbody>
+        </table>
+        {% include 'context_menu.html' %}
+        {% include 'clusterize_menu.html' %}
+        {% include 'range_menu.html' %}
+    </div>
+</body>
+
+{% block javascript %}
+    <script>
+        const menu = document.querySelector(".right-click-menu");
+        const menuArea = document.querySelector(".menu_area");
+        const clusterize_menu = document.querySelector("#clusterize_menu");
+        const range_menu = document.querySelector("#range_menu");
+
+        function ResetStatus() {
+
+            ids_=JSON.stringify(GetSelectedRowsId());
+            obj_={indexes:ids_};
+            alert(obj_.indexes);
+            url_="../reset_status/";
+            $.ajax({
+                url : url_, //"form_view_list/", // the endpoint
+                data:obj_,
+                type : "GET", // http method request
+
+                // handle a successful response
+                success : function(data) {
+                    //$('#div-form-list-table').html(data);
+                    //$('#main_table').html(data);
+                    alert('ok');
+                   window.location.reload();
+                },
+
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+
+                }
+            });
+        }
+
+        function SetEthalone() {
+
+            ids_=JSON.stringify(GetSelectedRowsId());
+            obj_={indexes:ids_};
+            alert(obj_.indexes);
+            url_="../set_ethalone/";
+            $.ajax({
+                url : url_, //"form_view_list/", // the endpoint
+                data:obj_,
+                type : "GET", // http method request
+
+                // handle a successful response
+                success : function(data) {
+                    //$('#div-form-list-table').html(data);
+                    //$('#main_table').html(data);
+                    alert('ok');
+                    window.location.reload();
+                },
+
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+
+                }
+            });
+        }
+        function Learn() {
+            url_="../learn/";
+            $.ajax({
+                url : url_, //"form_view_list/", // the endpoint
+                type : "GET", // http method request
+
+                // handle a successful response
+                success : function(data) {
+                    $('#info_text').html(data)
+                },
+
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+                    alert(errmsg);
+                }
+            });
+        }
+        function Cancel() {
+            clusterize_menu.classList.remove("active");
+
+        }
+        function CancelRange() {
+            range_menu.classList.remove("active");
+        }
+        function WorkData() {
+            ids_=JSON.stringify(GetSelectedRowsId());
+            obj_={indexes:ids_};
+            alert(obj_.indexes);
+            url_="../work_data/";
+            $.ajax({
+                url : url_, //"form_view_list/", // the endpoint
+                data:obj_,
+                type : "GET", // http method request
+
+                // handle a successful response
+                success : function(data) {
+                    //$('#main_table').html(data);
+                    alert('ok');
+                    window.location.reload();
+                },
+
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+
+                }
+            });
+        }
+        function ClassifyData() {
+            ids_=JSON.stringify(GetSelectedRowsId());
+            obj_={indexes:ids_};
+            alert(obj_.indexes);
+            url_="../classify_data/";
+            $.ajax({
+                url : url_, //"form_view_list/", // the endpoint
+                data:obj_,
+                type : "GET", // http method request
+                success : function(data) {
+                    alert('ok');
+                    window.location.reload();
+                },
+
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+                }
+            });
+        }
+        function Clusterize() {
+            elem=document.getElementById("count_clusters");
+            count_=elem.value;
+            ids_=JSON.stringify(GetSelectedRowsId());
+            obj_={count_clusters:count_,indexes:ids_};
+
+            url_="../clusterize_data/";
+            $.ajax({
+                url : url_, //"form_view_list/", // the endpoint
+                data:obj_,
+                type : "GET", // http method request
+
+                // handle a successful response
+                success : function(data) {
+                    alert('ok');
+                    //$('#main_table').html(data);
+                    window.location.reload();
+                },
+
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+
+                }
+            });
+
+            clusterize_menu.classList.remove("active");
+        }
+        function SetRange() {
+            indexes_=GetSelectedRowsId();
+            if(indexes_.length!=1)
+            {
+                alert('Необходимо выделить не более одной записи');
+                range_menu.classList.remove("active");
+                return;
+            }
+            else{
+                elem=document.getElementById("min_range");
+                min_range=elem.value;
+                elem=document.getElementById("max_range");
+                max_range=elem.value;
+                ids_=JSON.stringify(GetSelectedRowsId());
+                obj_={min_:min_range,max_:max_range,indexes:ids_};
+                url_="../set_range/";
+                $.ajax({
+                    url : url_, //"form_view_list/", // the endpoint
+                    data:obj_,
+                    type : "GET", // http method request
+
+                    // handle a successful response
+                    success : function(data) {
+                        {% comment %}$('#info_text').html(data);
+                        range_menu.classList.remove("active");{% endcomment %}
+                        window.location.reload();
+                    },
+
+                    // handle a non-successful response
+                    error : function(xhr,errmsg,err) {
+
+                    }
+                });
+
+            }
+
+        }
+        function GetSelectedRowsId()
+        {
+            items_=document.getElementsByClassName('marked');
+            list_=new Array();
+            for(i=0;i<items_.length;i++){
+                id_=items_[i].id;
+                list_.push(id_);
+            }
+            return list_;
+        }
+
+        document.addEventListener("click", event => {
+            if (event.button !== 2) {
+                menu.classList.remove("active");
+            }
+        }, false);
+
+        menu.addEventListener("click", event => {
+           // event.stopPropagation();
+        }, false);
+
+
+        //Группа элементов меню
+        document.querySelector("#l1").addEventListener("click", event => {
+            //alert("Кластеризация выполнена!");
+            event.preventDefault();
+            clusterize_menu.style.top = `${event.clientY}px`;
+            clusterize_menu.style.left = `${event.clientX}px`;
+            clusterize_menu.classList.add("active");
+        }, false);
+
+        document.querySelector("#l2").addEventListener("click", () => {
+            SetEthalone();
+        }, false);
+
+        document.querySelector("#l3").addEventListener("click", () => {
+            ResetStatus();
+        }, false);
+        document.querySelector("#l4").addEventListener("click", () => {
+            Learn();
+        }, false);
+        document.querySelector("#l5").addEventListener("click", () => {
+            WorkData();
+        }, false);
+        document.querySelector("#l6").addEventListener("click", () => {
+            ClassifyData();
+        }, false);
+        document.querySelector("#l7").addEventListener("click", () => {
+            event.preventDefault();
+            range_menu.style.top = `${event.clientY}px`;
+            range_menu.style.left = `${event.clientX}px`;
+            range_menu.classList.add("active");
+            ids_=JSON.stringify(GetSelectedRowsId());
+            obj={indexes:ids_};
+            url_="../get_range/";
+            $.ajax({
+                url : url_, //"form_view_list/", // the endpoint
+                data:obj,
+                type : "GET", // http method request
+
+                // handle a successful response
+                success : function(data) {
+                    {% comment %}$('#info_text').html(data);
+                    range_menu.classList.remove("active");{% endcomment %}
+                    max_=data.result["max_"];
+                    min_=data.result["min_"];
+                    obj_=document.getElementById("min_range")
+                    obj_.value=min_;
+                    obj_=document.getElementById("max_range")
+                    obj_.value=max_;
+                },
+
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+
+                }
+            });
+        }, false);
+
+        $( document ).ready(function(){
+            menuArea.addEventListener( "contextmenu", event => {
+                event.preventDefault();
+                menu.style.top = `${event.clientY}px`;
+                menu.style.left = `${event.clientX}px`;
+                menu.classList.add("active");
+            }, false);
+
+
+            $('tr').on('click', function(e) {
+                class_current=this.classList[0];
+                if ( $(this).hasClass('marked') ){
+                    $(this).removeClass('marked');
+                    $(this).addClass(class_current);
+                }
+                else{
+                    $(this).addClass('marked');
+                }
+
+            });
+
+        });
+
+
+
+    </script>
+{% endblock %}
+</html>

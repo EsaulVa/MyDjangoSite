@@ -1,0 +1,99 @@
+{% if not data_item.log_data %}
+    <td>{{data_item.data.street}}</td>
+    <td>{{data_item.data.house}}</td>
+    {% if data_item.data.label == -1 %}
+        <td> </td>
+    {% else %}
+        <td>{{data_item.data.label}}</td>
+    {% endif %}
+    <td>{{data_item.data.series}}</td>
+    <td>{{data_item.data.year_construct}}</td>
+    <td>{{data_item.data.year_commiss}}</td>
+    <td>{{data_item.data.total_area}}</td>
+    <td>{{data_item.data.total_area_resident}}</td>
+    <td>{{data_item.data.total_area_none_resident}}</td>
+    <td>{{data_item.data.total_area_part}}</td>
+    <td>{{data_item.data.total_count}}</td>
+    <td>{{ data_item.data.count_resident }}</td>
+    <td>{{ data_item.data.count_none_resident }}</td>
+    <td>{{ data_item.data.max_floors }}</td>
+    <td>{{ data_item.data.min_floors }}</td>
+    <td>{{ data_item.data.status }}</td>
+{% else %}
+    <td>{{data_item.data.street}}</td>
+    <td>{{data_item.data.house}}</td>
+    {% if data_item.data.label == -1 %}
+        <td> </td>
+    {% else %}
+        <td>{{data_item.data.label}}</td>
+    {% endif %}
+    <td>{{data_item.data.series}}</td>
+    <!--- Блок модификации ячеек --->
+    {% if data_item.log_data.year_construct > 0 %}
+        <td class="td_class">{{data_item.data.year_construct}}</td>
+    {% else %}
+        <td>{{data_item.data.year_construct}}</td>
+    {% endif %}
+    <!--- Год ввода в эксплуатацию --->
+    {% if data_item.log_data.year_commiss > 0 %}
+        <td class="td_class">{{data_item.data.year_commiss}}</td>
+    {% else %}
+        <td>{{data_item.data.year_commiss}}</td>
+    {% endif %}
+    <!--- Общая площадь --->
+    {% if data_item.log_data.total_area > 0 %}
+        <td class="td_class">{{data_item.data.total_area}}</td>
+    {% else %}
+        <td>{{data_item.data.total_area}}</td>
+    {% endif %}
+    <!--- Общая площадь жилых помещений --->
+    {% if data_item.log_data.total_area_resident > 0 %}
+        <td class="td_class">{{data_item.data.total_area_resident}}</td>
+    {% else %}
+        <td>{{data_item.data.total_area_resident}}</td>
+    {% endif %}
+    <!--- Общая площадь нежилых помещений --->
+    {% if data_item.log_data.total_area_none_resident > 0 %}
+        <td class="td_class">{{data_item.data.total_area_none_resident}}</td>
+    {% else %}
+        <td>{{data_item.data.total_area_none_resident}}</td>
+    {% endif %}
+    <!--- Общая площадь помещений, входящих в состав общего имущества-->
+    {% if data_item.log_data.total_area_part > 0 %}
+        <td class="td_class">{{data_item.data.total_area_part}}</td>
+    {% else %}
+        <td>{{data_item.data.total_area_part}}</td>
+    {% endif %}
+    <!--- Общее количество помещений -->
+    {% if data_item.log_data.total_count > 0 %}
+        <td class="td_class">{{data_item.data.total_count}}</td>
+    {% else %}
+        <td>{{data_item.data.total_count}}</td>
+    {% endif %}
+    <!--- Количество жилых помещений	 -->
+    {% if data_item.log_data.count_resident > 0 %}
+        <td class="td_class">{{data_item.data.count_resident}}</td>
+    {% else %}
+        <td>{{data_item.data.count_resident}}</td>
+    {% endif %}
+    <!--- Количество нежилых помещений	 -->
+    {% if data_item.log_data.count_none_resident > 0 %}
+        <td class="td_class">{{data_item.data.count_none_resident}}</td>
+    {% else %}
+        <td>{{data_item.data.count_none_resident}}</td>
+    {% endif %}
+    <!--- Наибольшее количество этажей	 -->
+    {% if data_item.log_data.max_floors > 0 %}
+        <td class="td_class">{{data_item.data.max_floors}}</td>
+    {% else %}
+        <td>{{data_item.data.max_floors}}</td>
+    {% endif %}
+    <!--- Наименьшее количество этажей	 -->
+    {% if data_item.log_data.min_floors > 0 %}
+        <td class="td_class">{{data_item.data.min_floors}}</td>
+    {% else %}
+        <td>{{data_item.data.min_floors}}</td>
+    {% endif %}
+    <td>{{ data_item.data.status }}</td>
+{% endif %}
+

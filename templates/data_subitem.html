@@ -1,0 +1,21 @@
+
+<td>{{data_item.street}}</td>
+<td>{{data_item.house}}</td>
+{% if data_item.label == -1 %}
+    <td> </td>
+{% else %}
+    <td>{{data_item.label}}</td>
+{% endif %}
+<td>{{data_item.series}}</td>
+<td>{{data_item.year_construct}}</td>
+<td>{{data_item.year_commiss}}</td>
+<td>{{data_item.total_area}}</td>
+<td>{{data_item.total_area_resident}}</td>
+<td>{{data_item.total_area_none_resident}}</td>
+<td>{{data_item.total_area_part}}</td>
+<td>{{data_item.total_count}}</td>
+<td>{{ data_item.count_resident }}</td>
+<td>{{ data_item.count_none_resident }}</td>
+<td>{{ data_item.max_floors }}</td>
+<td>{{ data_item.min_floors }}</td>
+<td>{{ data_item.status }}</td>

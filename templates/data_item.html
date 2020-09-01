@@ -1,0 +1,39 @@
+<!-- Отображение соседней строки -->
+{% if data_item.neigh_data %}
+    <tr style="background: #6f42c1">
+        <td>{{data_item.neigh_data.street}}</td>
+        <td>{{data_item.neigh_data.house}}</td>
+        {% if data_item.neigh_data.label == -1 %}
+            <td> </td>
+        {% else %}
+            <td>{{data_item.neigh_data.label}}</td>
+        {% endif %}    <
+        <td>{{data_item.neigh_data.series}}</td>
+        <td>{{data_item.neigh_data.year_construct}}</td>
+        <td>{{data_item.neigh_data.year_commiss}}</td>
+        <td>{{data_item.neigh_data.total_area}}</td>
+        <td>{{data_item.neigh_data.total_area_resident}}</td>
+        <td>{{data_item.neigh_data.total_area_none_resident}}</td>
+        <td>{{data_item.neigh_data.total_area_part}}</td>
+        <td>{{data_item.neigh_data.total_count}}</td>
+        <td>{{ data_item.neigh_data.count_resident }}</td>
+        <td>{{ data_item.neigh_data.count_none_resident }}</td>
+        <td>{{ data_item.neigh_data.max_floors }}</td>
+        <td>{{ data_item.neigh_data.min_floors }}</td>
+        <td>{{ data_item.neigh_data.status }}</td>
+    </tr>
+{% endif %}
+<!-- Отображение данных -->
+{% if data_item.data.status == -3 %}
+<tr id="{{data_item.data.id}}" class="tr_class_ethalone">
+    {% include "data_subitem1.html" %}
+</tr>
+{% elif data_item.data.status == -2 %}
+   <tr id="{{data_item.data.id}}" class="tr_class_сlusterize">
+   {% include "data_subitem1.html" %}
+   </tr>
+{% else %}
+    <tr id="{{data_item.data.id}}" class="tr_class">
+        {% include "data_subitem1.html" %}
+    </tr>
+{% endif %}
